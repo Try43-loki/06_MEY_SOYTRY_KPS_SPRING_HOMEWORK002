@@ -41,7 +41,6 @@ public interface StudentRepo {
     })
     List<Course> findAllCourses(Integer courseId);
 
-
     // get student by id
     @Select("select * from students where student_id = #{studentId}")
     @ResultMap("studentMapper")
@@ -56,37 +55,23 @@ public interface StudentRepo {
             """)
     Integer insertStudent(@Param("rq") StudentRequest studentRequest);
 
-    // update
+    // insert course
     @Select("""
                 Insert Into student_course(student_id, course_id)
                 VALUES (#{studentId}, #{courseId})
             """)
     void insertStudentsCourse(Integer studentId, Integer courseId);
 
+    // update student info
+    @Select("""
+            Update students
+            set student_name = #{student.studentName}, email = #{student.email}, phone_number = #{student.phoneNumber}
+            where student_id = #{studentId}
+            returning student_id;
+            """)
+    Integer updateStudentById(@Param("student") StudentRequest studentRequest, Integer studentId);
+
     // delete student
     @Delete("DELETE FROM students WHERE student_id = #{studentId}")
     void deleteStudentById(Integer studentId);
-
-    // update student by id
-    @Update("""
-    UPDATE students
-    SET student_name = #{student.studentName}, email = #{student.email}, phone_number = #{student.phoneNumber}
-    WHERE student_id = #{studentId} RETURNING student_id
-    """)
-    Integer updateStudentById(@Param("studentId") Integer id, @Param("student") StudentRequest studentRequest);
-
-    // update student_course
-    @Insert("""
-    insert into student_course(student_id, course_id)
-    VALUES (#{studentId}, #{courseId})
-""")
-    void updateStudentCourse(Integer studentId, Integer courseId);
-
-    // delete student_course
-    @Select("""
-    DELETE FROM student_course WHERE student_id = #{studentId}
-""")
-    void deleteStudentCourse(Integer studentId);
-
-
 }

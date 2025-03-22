@@ -36,8 +36,8 @@ public class InstructorServiceImp implements InstructorService {
     }
 
     @Override
-    public void addInstructor(InstructorRequest instructorRequest) {
-        instructorRepo.insertInstructor(instructorRequest);
+    public Instructor addInstructor(InstructorRequest instructorRequest) {
+        return instructorRepo.insertInstructor(instructorRequest);
     }
 
     @Override
@@ -50,10 +50,12 @@ public class InstructorServiceImp implements InstructorService {
     }
 
     @Override
-    public Instructor removeInstructor(int id) {
+    public void removeInstructor(int id) {
         Instructor instructor = getInstructorById(id);
+        if (instructor == null) {
+            throw new UserNotFoundException("Instructor ID " + id + " Not found");
+        }
         instructorRepo.deleteInstructor(id);
-        return instructor;
     }
 
 }

@@ -50,6 +50,6 @@ public interface CourseRepo {
 
     // delete course
     @Select("delete from courses where course_id  = #{id}")
-    Course deleteCourse(Integer id);
+    void deleteCourse(Integer id);
 
 }

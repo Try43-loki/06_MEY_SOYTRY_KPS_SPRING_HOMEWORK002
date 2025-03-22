@@ -35,8 +35,8 @@ public class CourseController {
     }
 
     // get course by id
-    @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<Course>> getCourseById(@PathVariable Integer id) {
+    @GetMapping("{course-id}")
+    public ResponseEntity<ApiResponse<Course>> getCourseById(@PathVariable("course-id") Integer id) {
 
         ApiResponse<Course> response = ApiResponse.<Course>builder()
                 .timestamp(LocalDateTime.now())
@@ -61,21 +61,21 @@ public class CourseController {
     }
 
     // update course
-    @PutMapping("{id}")
-    public ResponseEntity<ApiResponse<CourseRequest>> updateCourse(@PathVariable Integer id, @RequestBody CourseRequest courseRequest) {
-        courseService.updateCourse(id, courseRequest);
-        ApiResponse<CourseRequest> response = ApiResponse.<CourseRequest>builder()
+    @PutMapping("{course-id}")
+    public ResponseEntity<ApiResponse<Course>> updateCourse(@PathVariable("course-id") Integer id, @RequestBody CourseRequest courseRequest) {
+
+        ApiResponse<Course> response = ApiResponse.<Course>builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.OK)
                 .message("Update course successfully")
-                .payload(courseRequest)
+                .payload(courseService.updateCourse(id, courseRequest))
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // delete course
-    @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Course>> deleteCourse(@PathVariable Integer id) {
+    @DeleteMapping("{course-id}")
+    public ResponseEntity<ApiResponse<Course>> deleteCourse(@PathVariable("course-id") Integer id) {
         courseService.deleteCourse(id);
         ApiResponse<Course> response = ApiResponse.<Course>builder()
                 .timestamp(LocalDateTime.now())

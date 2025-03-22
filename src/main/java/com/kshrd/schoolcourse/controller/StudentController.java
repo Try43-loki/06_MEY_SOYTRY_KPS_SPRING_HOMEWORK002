@@ -36,8 +36,8 @@ public class StudentController {
 
 
     // get student by id
-    @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable Integer id) {
+    @GetMapping("{student-id}")
+    public ResponseEntity<ApiResponse<Student>> getStudentById(@PathVariable("student-id") Integer id) {
 
         ApiResponse<Student> response = ApiResponse.<Student>builder()
                 .timestamp(LocalDateTime.now())
@@ -49,7 +49,7 @@ public class StudentController {
     }
 
     // add student
-    @PostMapping("{id}")
+    @PostMapping()
     public ResponseEntity<ApiResponse<Student>> addStudent(@RequestBody StudentRequest studentRequest) {
         ApiResponse<Student> response = ApiResponse.<Student>builder()
                 .timestamp(LocalDateTime.now())
@@ -62,8 +62,8 @@ public class StudentController {
     }
 
     // update student
-    @PutMapping("{id}")
-    public ResponseEntity<ApiResponse<Student>> updateStudent(@PathVariable Integer id, @RequestBody StudentRequest studentRequest) {
+    @PutMapping("{student-id}")
+    public ResponseEntity<ApiResponse<Student>> updateStudent(@PathVariable("student-id") Integer id, @RequestBody StudentRequest studentRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()
                         .timestamp(LocalDateTime.now())
@@ -75,8 +75,8 @@ public class StudentController {
     }
 
     // delete student
-    @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Student>> deleteStudent(@PathVariable Integer id) {
+    @DeleteMapping("{student-id}")
+    public ResponseEntity<ApiResponse<Student>> deleteStudent(@PathVariable("student-id") Integer id) {
         studentService.deleteStudent(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Student>builder()

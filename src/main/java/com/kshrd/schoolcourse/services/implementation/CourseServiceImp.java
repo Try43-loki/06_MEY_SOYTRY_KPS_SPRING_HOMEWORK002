@@ -40,6 +40,10 @@ public class CourseServiceImp implements CourseService {
 
     @Override
     public void addCourse(CourseRequest courseRequest) {
+        Instructor instructor = instructorRepo.findInstructorById(courseRequest.getInstructorId());
+        if (instructor == null) {
+            throw new UserNotFoundException("Instructor ID " + courseRequest.getInstructorId() + " Not found");
+        }
         courseRepo.insertCourse(courseRequest);
     }
 
@@ -59,9 +63,11 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public Course deleteCourse(Integer id) {
+    public void deleteCourse(Integer id) {
         Course course = getCourseById(id);
+        if (course == null) {
+            throw new UserNotFoundException("Course ID " + id + " Not found");
+        }
         courseRepo.deleteCourse(id);
-        return course;
     }
 }

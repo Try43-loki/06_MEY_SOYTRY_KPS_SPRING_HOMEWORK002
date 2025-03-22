@@ -36,8 +36,8 @@ public class InstructorController {
     }
 
     // get instructor by id
-    @GetMapping("{id}")
-    public ResponseEntity<ApiResponse<Instructor>> getGetInstructorById(@PathVariable int id) {
+    @GetMapping("{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> getGetInstructorById(@PathVariable("instructor-id") int id) {
 
         ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
                 .timestamp(LocalDateTime.now())
@@ -50,20 +50,20 @@ public class InstructorController {
 
     // add instructor
     @PostMapping
-    public ResponseEntity<?> addInstructor(@RequestBody InstructorRequest instructorRequest) {
-        instructorService.addInstructor(instructorRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(
-                ApiResponse.builder()
-                        .timestamp(LocalDateTime.now())
-                        .message("Add Instructor Successfully")
-                        .status(HttpStatus.CREATED)
-                        .payload(instructorRequest).build()
-        );
+    public ResponseEntity<ApiResponse<Instructor>> addInstructor(@RequestBody InstructorRequest instructorRequest) {
+        ApiResponse<Instructor> response = ApiResponse.<Instructor>builder()
+                .timestamp(LocalDateTime.now())
+                .message("Add Instructor Successfully")
+                .status(HttpStatus.CREATED)
+                .payload(instructorService.addInstructor(instructorRequest))
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
     }
 
     // update instructor
-    @PutMapping("{id}")
-    public ResponseEntity<ApiResponse<Instructor>> updateInstructor(@PathVariable int id, @RequestBody InstructorRequest instructorRequest) {
+    @PutMapping("{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> updateInstructor(@PathVariable("instructor-id") int id, @RequestBody InstructorRequest instructorRequest) {
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()
@@ -75,8 +75,8 @@ public class InstructorController {
     }
 
     // delete instructor
-    @DeleteMapping("{id}")
-    public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(@PathVariable int id) {
+    @DeleteMapping("{instructor-id}")
+    public ResponseEntity<ApiResponse<Instructor>> deleteInstructor(@PathVariable("instructor-id") int id) {
         instructorService.removeInstructor(id);
         return ResponseEntity.status(HttpStatus.OK).body(
                 ApiResponse.<Instructor>builder()

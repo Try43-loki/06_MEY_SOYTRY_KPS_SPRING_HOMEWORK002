@@ -30,11 +30,11 @@ public interface InstructorRepo {
     Instructor findInstructorById(int id);
 
     // insert instructor
-    @Insert("""
+    @Select("""
             insert into instructors (instructor_name, email)
             values (#{instructor.instructorName}, #{instructor.email})
             """)
-    void insertInstructor(@Param("instructor") InstructorRequest instructorRequest);
+    Instructor insertInstructor(@Param("instructor") InstructorRequest instructorRequest);
 
     // update
     @Select("""

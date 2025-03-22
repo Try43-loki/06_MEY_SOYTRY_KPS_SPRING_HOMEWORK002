@@ -11,8 +11,8 @@ public interface InstructorService {
 
     List<Instructor> getAllInstructors( Integer offset, Integer limit );
     Instructor getInstructorById(int id);
-    void addInstructor(InstructorRequest instructorRequest);
+    Instructor addInstructor(InstructorRequest instructorRequest);
     Instructor updateInstructor(int id, InstructorRequest instructorRequest);
-    Instructor removeInstructor(int id);
+    void removeInstructor(int id);
 
 }

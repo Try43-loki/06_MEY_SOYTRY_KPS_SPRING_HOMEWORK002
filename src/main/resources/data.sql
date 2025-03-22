@@ -98,6 +98,9 @@ VALUES ('Alice Johnson', 'alice.johnson@example.com', '0123456789'),
 
 
 
+UPDATE students set student_name = 'dara', email= '@gmaim', phone_number = '12345678'
+where student_id = '30'
+returning student_id;
 
 
 

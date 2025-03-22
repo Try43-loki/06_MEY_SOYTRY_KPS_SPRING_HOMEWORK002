@@ -63,35 +63,19 @@ public class StudentServiceImp implements StudentService {
         studentRepo.deleteStudentById(id);
     }
 
-
     @Override
     public Student updateStudent(Integer id, StudentRequest studentRequest) {
-        // find student id
-        Student student = studentRepo.findStudentById(id);
-
-        for (Integer courseId : studentRequest.getCourseId()) {
-            Course course = courseRepo.findCourseById(courseId);
+        // get student id after update
+        Integer studentId = studentRepo.updateStudentById(studentRequest, id);
+        // check
+        for (Integer courseUpdateId : studentRequest.getCourseId()) {
+            Course course = courseRepo.findCourseById(courseUpdateId);
             if (course == null) {
-                return null;
+                throw new UserNotFoundException("Course ID " + courseUpdateId + " not found");
             }
+            studentRepo.insertStudentsCourse(studentId, courseUpdateId);
         }
-        // delete courses
-        studentRepo.deleteStudentCourse(student.getStudentId());
-
-        // update courses
-        for (Integer courseId : studentRequest.getCourseId()) {
-            studentRepo.updateStudentCourse(student.getStudentId(), courseId);
-        }
-        // update new StudentName
-        student.setStudentName(studentRequest.getStudentName());
-        student.setEmail(studentRequest.getEmail());
-        student.setPhoneNumber(studentRequest.getPhoneNumber());
-
-        // update student
-        studentRepo.updateStudentById(student.getStudentId(), studentRequest);
-
-        return studentRepo.findStudentById(id);
+        return studentRepo.findStudentById(studentId);
     }
-
 
 }
