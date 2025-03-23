@@ -39,12 +39,12 @@ public class CourseServiceImp implements CourseService {
     }
 
     @Override
-    public void addCourse(CourseRequest courseRequest) {
+    public Course addCourse(CourseRequest courseRequest) {
         Instructor instructor = instructorRepo.findInstructorById(courseRequest.getInstructorId());
         if (instructor == null) {
             throw new UserNotFoundException("Instructor ID " + courseRequest.getInstructorId() + " Not found");
         }
-        courseRepo.insertCourse(courseRequest);
+        return courseRepo.insertCourse(courseRequest);
     }
 
     @Override

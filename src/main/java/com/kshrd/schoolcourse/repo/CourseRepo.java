@@ -30,11 +30,13 @@ public interface CourseRepo {
     Course findCourseById(Integer id);
 
     // insert course
-    @Insert("""
+    @Select("""
                 INSERT INTO courses (course_name, description, instructor_id)
                 VALUES (#{course.courseName}, #{course.description}, #{course.instructorId})
+                returning *
             """)
-    void insertCourse(@Param("course") CourseRequest courseRequest);
+    @ResultMap("courseMapper")
+    Course insertCourse(@Param("course") CourseRequest courseRequest);
 
     // update course
     @Select("""

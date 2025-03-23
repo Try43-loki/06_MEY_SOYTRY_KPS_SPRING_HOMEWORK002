@@ -49,13 +49,12 @@ public class CourseController {
 
     // add course
     @PostMapping
-    public ResponseEntity<ApiResponse<?>> addCourse(@RequestBody CourseRequest courseRequest) {
-        courseService.addCourse(courseRequest);
-        ApiResponse<CourseRequest> response = ApiResponse.<CourseRequest>builder()
+    public ResponseEntity<ApiResponse<Course>> addCourse(@RequestBody CourseRequest courseRequest) {
+        ApiResponse<Course> response = ApiResponse.<Course>builder()
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.CREATED)
                 .message("Add course successfully")
-                .payload(courseRequest)
+                .payload(courseService.addCourse(courseRequest))
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

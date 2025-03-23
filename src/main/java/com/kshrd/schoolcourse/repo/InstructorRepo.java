@@ -33,7 +33,9 @@ public interface InstructorRepo {
     @Select("""
             insert into instructors (instructor_name, email)
             values (#{instructor.instructorName}, #{instructor.email})
+            returning *;
             """)
+    @ResultMap("instructorMapper")
     Instructor insertInstructor(@Param("instructor") InstructorRequest instructorRequest);
 
     // update
