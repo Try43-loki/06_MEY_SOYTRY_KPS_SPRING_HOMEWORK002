@@ -6,6 +6,7 @@ Create table instructors
     email           varchar(100) not null
 );
 
+
 Create table courses
 (
     course_id     serial primary key,
@@ -101,6 +102,9 @@ VALUES ('Alice Johnson', 'alice.johnson@example.com', '0123456789'),
 UPDATE students set student_name = 'dara', email= '@gmaim', phone_number = '12345678'
 where student_id = '30'
 returning student_id;
+
+
+delete from student_course where student_id = 1;
 
 
 

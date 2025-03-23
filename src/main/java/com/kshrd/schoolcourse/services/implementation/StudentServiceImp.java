@@ -67,6 +67,12 @@ public class StudentServiceImp implements StudentService {
     public Student updateStudent(Integer id, StudentRequest studentRequest) {
         // get student id after update
         Integer studentId = studentRepo.updateStudentById(studentRequest, id);
+        // delete course
+        if(studentId == null) {
+            throw new UserNotFoundException("Student ID " + id + " not found");
+        }else{
+            studentRepo.deleteStudentsCourse(studentId);
+        }
         // check
         for (Integer courseUpdateId : studentRequest.getCourseId()) {
             Course course = courseRepo.findCourseById(courseUpdateId);

@@ -51,7 +51,6 @@ public interface StudentRepo {
             INSERT INTO students(student_name, email, phone_number)
             VALUES (#{rq.studentName}, #{rq.email}, #{rq.phoneNumber})
             returning student_id;
-            
             """)
     Integer insertStudent(@Param("rq") StudentRequest studentRequest);
 
@@ -61,6 +60,12 @@ public interface StudentRepo {
                 VALUES (#{studentId}, #{courseId})
             """)
     void insertStudentsCourse(Integer studentId, Integer courseId);
+
+    // delete student_course
+    @Delete("""
+        DELETE from student_course where student_id = #{studentId}
+    """)
+    void deleteStudentsCourse(Integer studentId);
 
     // update student info
     @Select("""
